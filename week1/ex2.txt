@@ -1,0 +1,20 @@
+BASH_BUILTINS(1)            General Commands Manual           BASH_BUILTINS(1)
+
+NAME
+       bash,  :,  .,  [, alias, bg, bind, break, builtin, caller, cd, command,
+       compgen, complete, compopt,  continue,  declare,  dirs,  disown,  echo,
+       enable,  eval,  exec, exit, export, false, fc, fg, getopts, hash, help,
+       history, jobs, kill, let, local, logout, mapfile, popd, printf,  pushd,
+       pwd,  read, readonly, return, set, shift, shopt, source, suspend, test,
+       times, trap, true, type, typeset, ulimit, umask, unalias, unset, wait -
+       bash built-in commands, see bash(1)
+
+BASH BUILTIN COMMANDS
+       Unless otherwise noted, each builtin command documented in this section
+       as accepting options preceded by - accepts -- to signify the end of the
+       options.   The  :, true, false, and test builtins do not accept options
+       and do not treat -- specially.  The exit, logout, return,  break,  con‐
+       tinue,  let,  and shift builtins accept and process arguments beginning
+       with - without requiring --.  Other builtins that accept arguments  but
+       are  not  specified  as accepting options interpret arguments beginning
+       with - as invalid options and require -- to  prevent  this  interpreta‐

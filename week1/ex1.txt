@@ -1,0 +1,6 @@
+x86_64-redhat-linux-gcc-8
+x86_64-redhat-linux-gcc
+gcc-ranlib
+gcc-nm
+gcc-ar
+gcc
