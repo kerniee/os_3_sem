@@ -66,7 +66,7 @@ void print_processes(struct process *processes, int size) {
     printf("Average Waiting Time = %.6f\n", total_WT / size);
 }
 
-int comp(const void *elem1, const void *elem2) {
+int comp_fcfs(const void *elem1, const void *elem2) {
     int a1 = ((struct process *) elem1)->arrival_time;
     int a2 = ((struct process *) elem2)->arrival_time;
     if (a1 > a2) return 1;
@@ -74,9 +74,9 @@ int comp(const void *elem1, const void *elem2) {
     return 0;
 }
 
-void run_processes(struct process *processes, int num_of_processes) {
+void run_processes_fcfs(struct process *processes, int num_of_processes) {
     // Sort processes by arrival time
-    qsort(processes, num_of_processes, sizeof(struct process), comp);
+    qsort(processes, num_of_processes, sizeof(struct process), comp_fcfs);
 
     int current_time = 0;
     for (int i = 0; i < num_of_processes; ++i) {
@@ -102,7 +102,7 @@ int main() {
         read_process_data(&processes[i], i);
     }
 
-    run_processes(&processes, num_of_processes);
+    run_processes_fcfs(&processes, num_of_processes);
     print_processes(processes, num_of_processes);
     return 0;
 }

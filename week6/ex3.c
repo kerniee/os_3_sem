@@ -23,7 +23,7 @@ void input(int *a) {
 }
 
 void read_process_data(struct process *p, int i) {
-    printf("process[%d]: ", i);
+    printf("process[%d]: \n", i);
     scanf("%d %d", &p->arrival_time, &p->burst_time);
     if (p->arrival_time < 0 || p->burst_time < 1) {
         printf("Arrival time must be not negative, Burst time should be greater then zero\n");
@@ -67,7 +67,7 @@ void print_processes(struct process *processes, int size) {
     printf("Average Waiting Time = %.6f\n", total_WT / size);
 }
 
-int comp(const void *elem1, const void *elem2) {
+int comp_robin(const void *elem1, const void *elem2) {
     int a1 = ((struct process *) elem1)->arrival_time;
     int a2 = ((struct process *) elem2)->arrival_time;
     if (a1 > a2) return 1;
@@ -75,13 +75,13 @@ int comp(const void *elem1, const void *elem2) {
     return 0;
 }
 
-void run_processes(struct process *processes, int num_of_processes, int quantum) {
+void run_processes_robin(struct process *processes, int num_of_processes, int quantum) {
     // Sort processes by arrival time
-    qsort(processes, num_of_processes, sizeof(struct process), comp);
+    qsort(processes, num_of_processes, sizeof(struct process), comp_robin);
 
     int current_time = 0;
     int num_of_complete_processes = 0;
-    while(num_of_complete_processes != num_of_processes) {
+    while (num_of_complete_processes != num_of_processes) {
         for (int i = 0; i < num_of_processes; ++i) {
             struct process *p = &processes[i];
             if (p->completion_time != -1) {
@@ -112,10 +112,73 @@ void run_processes(struct process *processes, int num_of_processes, int quantum)
     }
 }
 
+
+int comp_fcfs(const void *elem1, const void *elem2) {
+    int a1 = ((struct process *) elem1)->arrival_time;
+    int a2 = ((struct process *) elem2)->arrival_time;
+    if (a1 > a2) return 1;
+    if (a1 < a2) return -1;
+    return 0;
+}
+
+void run_processes_fcfs(struct process *processes, int num_of_processes) {
+    // Sort processes by arrival time
+    qsort(processes, num_of_processes, sizeof(struct process), comp_fcfs);
+
+    int current_time = 0;
+    for (int i = 0; i < num_of_processes; ++i) {
+        struct process *p = &processes[i];
+        if (p->arrival_time > current_time) {
+            // Wait for process to arrive
+            current_time = p->arrival_time;
+        }
+        // Run process
+        current_time += p->burst_time;
+        p->completion_time = current_time;
+        // Go to next process in queue
+    }
+}
+
+
+int comp_sjn(const void *elem1, const void *elem2) {
+    int a1 = ((struct process *) elem1)->arrival_time;
+    int a2 = ((struct process *) elem2)->arrival_time;
+    if (a1 > a2) return 1;
+    if (a1 < a2) return -1;
+
+    int b1 = ((struct process *) elem1)->burst_time;
+    int b2 = ((struct process *) elem2)->burst_time;
+    if (b1 > b2) return 1;
+    if (b1 < b2) return -1;
+    return 0;
+}
+
+void run_processes_sjn(struct process *processes, int num_of_processes) {
+    // Sort processes by arrival time, and then by burst time
+    qsort(processes, num_of_processes, sizeof(struct process), comp_sjn);
+
+    int current_time = 0;
+    for (int i = 0; i < num_of_processes; ++i) {
+        struct process *p = &processes[i];
+        if (p->arrival_time > current_time) {
+            // Wait for process to arrive
+            current_time = p->arrival_time;
+        }
+        // Run process
+        current_time += p->burst_time;
+        p->completion_time = current_time;
+        // Go to next process in queue
+    }
+}
+
 int main() {
     int num_of_processes;
+    int quantum;
+
     printf("Enter number of processes to create: \n");
     input(&num_of_processes);
+    printf("Enter quantum: \n");
+    input(&quantum);
     struct process processes[num_of_processes];
     printf("Enter arrival and burst time for each process in new line\n");
     for (int i = 0; i < num_of_processes; ++i) {
@@ -124,7 +187,28 @@ int main() {
         processes[i].completion_time = -1;
     }
 
-    run_processes(&processes, num_of_processes, 3);
+    printf("\nRound Robin: \n");
+    run_processes_robin(&processes, num_of_processes, quantum);
     print_processes(processes, num_of_processes);
+
+    printf("\nShortest Job First: \n");
+    run_processes_sjn(&processes, num_of_processes);
+    print_processes(processes, num_of_processes);
+
+    printf("\nFirst Come, First Served: \n");
+    run_processes_fcfs(&processes, num_of_processes);
+    print_processes(processes, num_of_processes);
+    // Average waiting time (WT) strongly depends on average turnaround time (TAT)
+    // Because WT = TAT - BT, where bt is constant and does not depends on algorithm
+    // So, they both represent same metrics.
+    //
+    // First Come, First Served algorithm will have large average TAT and WT if long jobs come first
+    // They will execute firstly, postponing fast jobs, avr TAT and WT large
+    //
+    // Shortest Job First algorithm will have large average TAT and WT if there are a lot of long jobs
+    // They will execute at last, so avr TAT and WT will became large.
+    //
+    // Round Robin algorithm designed to maximize avr TAT and WT.
+    // It have best avr TAT in theory, but takes time to switch between processes in practice
     return 0;
 }
