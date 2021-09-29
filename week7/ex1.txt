@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+   2928	    648	      8	   3584	    e00	../week5/ex3
