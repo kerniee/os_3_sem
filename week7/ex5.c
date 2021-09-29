@@ -11,5 +11,7 @@ int main() {
     printf("s is %p\n", s);
     s[0] = foo;
     printf("s [0] is %s\n", s[0]);
+    // free pointer, for the sake of consistency
+    free(s);
     return (0);
 }
