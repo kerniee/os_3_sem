@@ -13,6 +13,5 @@ int main() {
     printf("s [0] is %s\n", s[0]);
     // free pointer, for the sake of consistency
     free(s);
-    double* const p;
     return (0);
 }
