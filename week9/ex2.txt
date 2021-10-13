@@ -1,0 +1,19 @@
+We can get increase in Hit/Miss ratio by accessing pages that are already was accessed recently.
+
+For example, consider M unique pages and N page frames.
+To minimize misses, we need to take groups of N unique pages, access them as much as we want, and then continue with next group.
+In than idealize case, we will get only M misses to load each page in memory only once.
+
+In extreme case, if we access same page N times, we will get only 1 page miss at the beginning and
+N - 1 page hits, so maximal ratio we can get for N pages is N - 1.
+
+
+To get decrease in ratio, we can access new pages each tick or access page we accessed long time ago
+(so it no longer be present in table because it was replaced with other recently accessed pages)
+
+For example, consider N+1 unique pages [1,2,3 ... ,N,N+1] and N page frames.
+We can access pages in such order: 1, 2 ... N, N+1, 1, 2 ... N, N+1, 1, 2 ...
+In that case, we will get only misses, because at first we will fill page table with [1,2,3 ... ,N]
+N+1 will replace 1, 1 will replace 2 and so on. The cycle repeats, and we will never get a hit.
+
+In extreme case, if we access new unique page every tick, we get only misses and ratio well be zero.
