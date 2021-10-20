@@ -1,0 +1,15 @@
+-rw-r--r--. 1 root root 7 Oct 20 16:05 _ex3.txt
+-rwxr--rwx. 1 root root 7 Oct 20 16:05 _ex3.txt
+-rwxrwxrwx. 1 root root 7 Oct 20 16:05 _ex3.txt
+660 means
+110(read and write) rights to owner,
+110(read and write) rights to group,
+000(no) rights to others
+775 means
+111(read, write and execute) rights to owner,
+111(read, write and execute) rights to group,
+101(read and execute) rights to others
+777 means
+111(read, write and execute) rights to owner,
+111(read, write and execute) rights to group,
+111(read, write and execute) rights to others
