@@ -1,0 +1,20 @@
+----Change root----
+lib64
+..
+lib
+file1
+file2
+bin
+ex2.out
+.
+lost+found
+----Do not change root----
+ex2.out
+ex2.txt
+lofsdisk
+..
+lofs.img
+ex1.sh
+ex2.sh
+ex2.c
+.
