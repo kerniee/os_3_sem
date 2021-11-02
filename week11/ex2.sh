@@ -22,7 +22,7 @@ list="$(ldd /bin/ls | egrep -o '/lib.*\.[0-9]')"
 for i in $list; do sudo cp "$i" "${J}${i}"; done
 
 # Compile and copy program
-sudo gcc -0 ex2.out ex2.c
+sudo gcc -o ex2.out ex2.c
 sudo cp ./ex2.out $J/
 
 echo "----Change root----" > ex2.txt
