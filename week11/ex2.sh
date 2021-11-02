@@ -2,27 +2,27 @@ J=lofsdisk
 
 echo Matvey > $J/file1
 echo Abramov > $J/file2
-chmod 777 $J/
+sudo chmod 777 $J/
 
 # Copy programs
-mkdir -p $J/{bin,lib64,lib}
-cp /bin/{bash,cat,echo,ls} $J/bin
+sudo mkdir -p $J/{bin,lib64,lib}
+sudo cp /bin/{bash,cat,echo,ls} $J/bin
 
 # Copy shared libs
 list="$(ldd /bin/bash | egrep -o '/lib.*\.[0-9]')"
-for i in $list; do cp "$i" "${J}${i}"; done
+for i in $list; do sudo cp "$i" "${J}${i}"; done
 
 list="$(ldd /bin/cat | egrep -o '/lib.*\.[0-9]')"
-for i in $list; do cp "$i" "${J}${i}"; done
+for i in $list; do sudo cp "$i" "${J}${i}"; done
 
 list="$(ldd /bin/echo | egrep -o '/lib.*\.[0-9]')"
-for i in $list; do cp "$i" "${J}${i}"; done
+for i in $list; do sudo cp "$i" "${J}${i}"; done
 
 list="$(ldd /bin/ls | egrep -o '/lib.*\.[0-9]')"
-for i in $list; do cp "$i" "${J}${i}"; done
+for i in $list; do sudo cp "$i" "${J}${i}"; done
 
 # Copy program
-cp ./ex2.out $J/
+sudo cp ./ex2.out $J/
 
 echo "----Change root----" > ex2.txt
 # Change root directory and run
