@@ -1,0 +1,10 @@
+Recovery
+Best use case: we have very low chance of getting deadlock.
+Because the chance is low, we can use only this method and not the others. There will be no overhead on applying other strategies, and the overhead of the recovery will be minimal.
+
+Prevention
+Best use case: a lot of potential deadlocks.
+Main problem of prevention is reduced throughput, but it overhead is still less than using recovery because of frequency of deadlocks.
+
+Avoidance
+Best use case: we have enough information on the safeness of execution, so we can avoid deadlocks.
