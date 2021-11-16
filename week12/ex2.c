@@ -3,24 +3,24 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#define KEY_PRESSED 1
 #define KEY_RELEASED 0
+#define KEY_PRESSED 1
 #define KEY_HOLD 2
 
 
 int main() {
     int file = open("/dev/input/by-path/platform-i8042-serio-0-event-kbd", O_RDONLY);
 
-    struct input_event ev;
+    struct input_event event;
 
     while (1) {
-        int rb = read(file, &ev, sizeof(ev));
-        if (ev.type != EV_KEY || ev.value == KEY_HOLD)
+        read(file, &event, sizeof(event));
+        if (event.type != EV_KEY)
             continue;
-        if (ev.value == KEY_PRESSED) {
-            printf("PRESSED 0x%x (%d)\n", ev.code, ev.code);
-        } else {
-            printf("RELEASED 0x%x (%d)\n", ev.code, ev.code);
+        if (event.value == KEY_PRESSED) {
+            printf("PRESSED 0x%x (%d)\n", event.code, event.code);
+        } else if (event.value == KEY_RELEASED) {
+            printf("RELEASED 0x%x (%d)\n", event.code, event.code);
         }
     }
     return 0;
